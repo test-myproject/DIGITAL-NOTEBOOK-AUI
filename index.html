@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f0e7">
+    <title>Digital Notebook</title>
+    <style>
+     
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --paper: #f5f0e7;
+    --card: #fffdf8;
+    --ink: #302b25;
+    --muted: #82796d;
+    --line: #e7dfd2;
+    --accent: #795b43;
+    --red: #b9473f;
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app {
+    max-width: 720px;
+    margin: auto;
+    padding: 25px 20px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: #e8ddce;
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    font-family: Georgia, serif;
+    font-weight: bold;
+}
+
+.brand {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 750;
+}
+
+.subbrand {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.status-pill {
+    margin-left: auto;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    padding: 7px 10px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted);
+}
+
+.hero {
+    padding: 38px 0 25px;
+}
+
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font: normal clamp(35px, 8vw, 54px)/1.08 Georgia, serif;
+    letter-spacing: -1.5px;
+    margin: 0;
+}
+
+h1 em {
+    color: var(--accent);
+}
+
+.intro {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.notice {
+    display: flex;
+    gap: 12px;
+    background: #eee7dc;
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 18px;
+}
+
+.notice-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 5px;
+    flex: none;
+}
+
+.notice strong {
+    font-size: 12px;
+}
+
+.notice p {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.recorder {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 20px;
+}
+
+.recorder-head,
+.saved-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.recorder-head span:last-child {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.timer {
+    font: normal 54px Georgia, serif;
+    text-align: center;
+    margin: 28px 0 8px;
+    font-variant-numeric: tabular-nums;
+}
+
+.record-state {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.meter {
+    height: 4px;
+    background: #eee8df;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.meter span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--red);
+    transition: width .2s;
+}
+
+.consent {
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--muted);
+    margin: 20px 0;
+}
+
+.consent input {
+    width: 18px;
+    height: 18px;
+    flex: none;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    min-height: 50px;
+    border: 0;
+    border-radius: 13px;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .38;
+}
+
+.primary {
+    background: var(--accent);
+    color: white;
+}
+
+.secondary {
+    background: #eee8df;
+    color: var(--ink);
+}
+
+.hint {
+    font-size: 10px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin-top: 14px;
+}
+
+.error {
+    font-size: 11px;
+    color: var(--red);
+}
+
+.saved {
+    padding: 30px 2px;
+}
+
+.saved h2 {
+    font: normal 24px Georgia, serif;
+    margin: 0;
+}
+
+.saved-head > span {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.empty {
+    color: var(--muted);
+    font-size: 12px;
+    padding: 18px;
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+}
+
+.segment {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fffaf2;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.segment-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background: #eee5d9;
+    display: grid;
+    place-items: center;
+}
+
+.segment-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.segment-info strong {
+    display: block;
+    font-size: 12px;
+}
+
+.segment-info small {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.segment a {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 9px;
+}
+
+footer {
+    text-align: center;
+    color: #a0978c;
+    font-size: 10px;
+    padding: 12px;
+}
+
+@media (max-width: 360px) {
+    .app {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .recorder {
+        padding: 16px;
+    }
+
+    .timer {
+        font-size: 48px;
+    }
+}
+    </style>
+</head>
+<body>
+
+<main class="app">
+
+    <header class="topbar">
+        <div class="brand-mark">DN</div>
+
+        <div>
+            <div class="brand">DIGITAL NOTEBOOK</div>
+            <div class="subbrand">Личное пространство для заметок</div>
+        </div>
+
+        <span class="status-pill" id="statusPill">ГОТОВО</span>
+    </header>
+
+    <section class="hero">
+        <p class="eyebrow">МОЯ БИБЛИОТЕКА</p>
+
+        <h1>
+            Тишина помогает<br>
+            <em>сосредоточиться.</em>
+        </h1>
+
+        <p class="intro">
+            Создавайте аудиозаметки и сохраняйте их на устройстве.
+        </p>
+    </section>
+
+    <section class="notice">
+        <span class="notice-dot"></span>
+
+        <div>
+            <strong>Прозрачная запись</strong>
+            <p>
+                Микрофон активен только после вашего нажатия.
+                Во время записи индикатор остаётся видимым.
+            </p>
+        </div>
+    </section>
+
+    <section class="recorder">
+
+        <div class="recorder-head">
+            <span class="eyebrow">АУДИОЗАМЕТКА</span>
+            <span id="formatLabel">Формат определится браузером</span>
+        </div>
+
+        <div class="timer" id="timer">00:00</div>
+
+        <div class="record-state" id="recordState">
+            Запись не запущена
+        </div>
+
+        <div class="meter">
+            <span id="meterFill"></span>
+        </div>
+
+        <label class="consent">
+            <input type="checkbox" id="consentCheck">
+            Я подтверждаю, что имею право записывать этот разговор
+            и участники уведомлены.
+        </label>
+
+        <div class="actions">
+            <button class="primary" id="startBtn">
+                Начать запись
+            </button>
+
+            <button class="secondary" id="stopBtn" disabled>
+                Остановить
+            </button>
+        </div>
+
+        <p class="hint">
+            Аудио автоматически делится на фрагменты по 3 минуты.
+            Не закрывайте Safari во время записи.
+        </p>
+
+        <p class="error" id="error"></p>
+
+    </section>
+
+    <section class="saved">
+
+        <div class="saved-head">
+            <div>
+                <p class="eyebrow">ВАШИ ФАЙЛЫ</p>
+                <h2>Сохранённые фрагменты</h2>
+            </div>
+
+            <span id="count">0 файлов</span>
+        </div>
+
+        <div id="segments" class="segments">
+            <p class="empty">
+                Здесь появятся сохранённые аудиофрагменты.
+            </p>
+        </div>
+
+    </section>
+
+    <footer>
+        Digital Notebook · Запись остаётся под вашим контролем
+    </footer>
+
+</main>
+
+<script>
+  ```javascript
+const $ = id => document.getElementById(id);
+
+const startBtn = $("startBtn");
+const stopBtn = $("stopBtn");
+const consentCheck = $("consentCheck");
+
+let stream = null;
+let recorder = null;
+let timer = null;
+let seconds = 0;
+let segmentNumber = 0;
+let segmentStartedAt = 0;
+let chunks = [];
+let stopping = false;
+
+function formatTime(n) {
+    const min = String(Math.floor(n / 60)).padStart(2, "0");
+    const sec = String(n % 60).padStart(2, "0");
+
+    return `${min}:${sec}`;
+}
+
+function formatBytes(n) {
+    if (n < 1024 * 1024) {
+        return `${(n / 1024).toFixed(0)} КБ`;
+    }
+
+    return `${(n / 1024 / 1024).toFixed(1)} МБ`;
+}
+
+function bestMime() {
+    const types = [
+        "audio/mp4",
+        "audio/webm;codecs=opus",
+        "audio/webm"
+    ];
+
+    return types.find(type =>
+        MediaRecorder.isTypeSupported(type)
+    ) || "";
+}
+
+function addSegment(blob, number, duration) {
+    if (!blob || !blob.size) return;
+
+    const url = URL.createObjectURL(blob);
+
+    const extension = blob.type.includes("mp4")
+        ? "m4a"
+        : "webm";
+
+    const name = `audio-note-${number}.${extension}`;
+
+    const row = document.createElement("div");
+    row.className = "segment";
+
+    const icon = document.createElement("div");
+    icon.className = "segment-icon";
+    icon.textContent = "♫";
+
+    const info = document.createElement("div");
+    info.className = "segment-info";
+
+    const title = document.createElement("strong");
+    title.textContent = `Фрагмент ${number}`;
+
+    const meta = document.createElement("small");
+    meta.textContent =
+        `${formatTime(duration)} · ${formatBytes(blob.size)}`;
+
+    info.append(title, meta);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    link.textContent = "Скачать";
+
+    row.append(icon, info, link);
+
+    if ($("segments").querySelector(".empty")) {
+        $("segments").innerHTML = "";
+    }
+
+    $("segments").prepend(row);
+
+    $("count").textContent = `${number} файлов`;
+}
+
+function beginSegment() {
+    chunks = [];
+
+    const mimeType = bestMime();
+
+    recorder = new MediaRecorder(
+        stream,
+        mimeType ? { mimeType } : undefined
+    );
+
+    const currentRecorder = recorder;
+
+    segmentStartedAt = Date.now();
+
+    currentRecorder.addEventListener("dataavailable", event => {
+        if (event.data && event.data.size) {
+            chunks.push(event.data);
+        }
+    });
+
+    currentRecorder.addEventListener("stop", () => {
+        const blob = new Blob(chunks, {
+            type: currentRecorder.mimeType || "audio/mp4"
+        });
+
+        segmentNumber++;
+
+        addSegment(
+            blob,
+            segmentNumber,
+            Math.max(
+                1,
+                Math.round((Date.now() - segmentStartedAt) / 1000)
+            )
+        );
+
+        chunks = [];
+
+        if (!stopping && stream) {
+            beginSegment();
+        }
+    }, { once: true });
+
+    currentRecorder.start();
+
+    $("formatLabel").textContent =
+        currentRecorder.mimeType || "Формат браузера";
+}
+
+async function startRecording() {
+    $("error").textContent = "";
+
+    if (!consentCheck.checked) {
+        $("error").textContent =
+            "Подтвердите наличие разрешения на запись.";
+        return;
+    }
+
+    if (
+        !navigator.mediaDevices?.getUserMedia ||
+        !window.MediaRecorder
+    ) {
+        $("error").textContent =
+            "Браузер не поддерживает запись. Используйте HTTPS и актуальный Safari.";
+        return;
+    }
+
+    try {
+        stopping = false;
+
+        stream = await navigator.mediaDevices.getUserMedia({
+            audio: true
+        });
+
+        segmentNumber = 0;
+        seconds = 0;
+
+        $("timer").textContent = "00:00";
+
+        $("statusPill").textContent = "ЗАПИСЬ";
+        $("recordState").textContent =
+            "● Идёт запись — микрофон активен";
+
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        consentCheck.disabled = true;
+
+        beginSegment();
+
+        timer = setInterval(() => {
+            seconds++;
+
+            $("timer").textContent = formatTime(seconds);
+
+            $("meterFill").style.width =
+                `${(seconds % 180) / 180 * 100}%`;
+
+            // Каждый фрагмент длится 3 минуты.
+            if (
+                seconds % 180 === 0 &&
+                recorder?.state === "recording"
+            ) {
+                recorder.stop();
+            }
+
+        }, 1000);
+
+    } catch (error) {
+        $("error").textContent =
+            "Не удалось получить доступ к микрофону: " +
+            error.message;
+    }
+}
+
+function stopRecording() {
+    stopping = true;
+
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+
+    $("statusPill").textContent = "ГОТОВО";
+    $("recordState").textContent = "Запись остановлена";
+
+    $("meterFill").style.width = "0%";
+
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    consentCheck.disabled = false;
+
+    if (recorder && recorder.state !== "inactive") {
+        recorder.stop();
+    }
+
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+    }
+}
+
+startBtn.addEventListener("click", startRecording);
+stopBtn.addEventListener("click", stopRecording);
+
+document.addEventListener("visibilitychange", () => {
+    if (
+        document.hidden &&
+        $("statusPill").textContent === "ЗАПИСЬ"
+    ) {
+        $("recordState").textContent =
+            "Вкладка скрыта. Safari может приостановить запись.";
+    }
+});
+
+window.addEventListener("pagehide", () => {
+    if (timer) clearInterval(timer);
+});
+```}
+</script>
+
+</body>
+</html>
+```
