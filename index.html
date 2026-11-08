@@ -1,687 +1,792 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f5f0e7">
-    <title>Digital Notebook</title>
-    <style>
-     
-* {
-    box-sizing: border-box;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f0e7">
+<title>Digital Notebook</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+    --bg:#f5f0e7;
+    --card:#fffdf8;
+    --text:#302b25;
+    --muted:#82796d;
+    --border:#e7dfd2;
+    --accent:#795b43;
+    --red:#bd4942;
 }
 
-:root {
-    --paper: #f5f0e7;
-    --card: #fffdf8;
-    --ink: #302b25;
-    --muted: #82796d;
-    --line: #e7dfd2;
-    --accent: #795b43;
-    --red: #b9473f;
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
 }
 
-body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.app{
+    max-width:650px;
+    margin:auto;
+    padding:25px 18px 40px;
 }
 
-.app {
-    max-width: 720px;
-    margin: auto;
-    padding: 25px 20px;
+.topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
 }
 
-.topbar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 18px;
+.logo{
+    width:44px;
+    height:44px;
+    display:grid;
+    place-items:center;
+    background:#e8ddce;
+    color:var(--accent);
+    border-radius:13px;
+    font-family:Georgia,serif;
+    font-weight:bold;
 }
 
-.brand-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 13px;
-    background: #e8ddce;
-    color: var(--accent);
-    display: grid;
-    place-items: center;
-    font-family: Georgia, serif;
-    font-weight: bold;
+.topbar h3{
+    font-size:11px;
+    letter-spacing:2px;
+    margin:0;
 }
 
-.brand {
-    font-size: 11px;
-    letter-spacing: 2px;
-    font-weight: 750;
+.topbar p{
+    font-size:11px;
+    color:var(--muted);
+    margin:5px 0 0;
 }
 
-.subbrand {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
+.status{
+    margin-left:auto;
+    padding:8px 11px;
+    border:1px solid var(--border);
+    border-radius:30px;
+    font-size:9px;
+    letter-spacing:1px;
 }
 
-.status-pill {
-    margin-left: auto;
-    border: 1px solid var(--line);
-    border-radius: 30px;
-    padding: 7px 10px;
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: var(--muted);
+.status.recording{
+    color:var(--red);
+    border-color:#e5b5b0;
 }
 
-.hero {
-    padding: 38px 0 25px;
+.hero{
+    padding:38px 0 25px;
 }
 
-.eyebrow {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-weight: 700;
-    margin-bottom: 12px;
+.eyebrow{
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:bold;
 }
 
-h1 {
-    font: normal clamp(35px, 8vw, 54px)/1.08 Georgia, serif;
-    letter-spacing: -1.5px;
-    margin: 0;
+.hero h1{
+    font-family:Georgia,serif;
+    font-size:clamp(34px,8vw,52px);
+    font-weight:normal;
+    line-height:1.1;
+    margin:13px 0;
 }
 
-h1 em {
-    color: var(--accent);
+.hero h1 em{
+    color:var(--accent);
 }
 
-.intro {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.6;
+.hero p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
 }
 
-.notice {
-    display: flex;
-    gap: 12px;
-    background: #eee7dc;
-    border-radius: 16px;
-    padding: 15px;
-    margin-bottom: 18px;
+.notice{
+    display:flex;
+    gap:12px;
+    padding:15px;
+    background:#eee7dc;
+    border-radius:15px;
+    margin-bottom:18px;
 }
 
-.notice-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-top: 5px;
-    flex: none;
+.notice-icon{
+    color:var(--accent);
 }
 
-.notice strong {
-    font-size: 12px;
+.notice strong{
+    font-size:12px;
 }
 
-.notice p {
-    font-size: 11px;
-    line-height: 1.5;
-    color: var(--muted);
+.notice p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+    margin-bottom:0;
 }
 
-.recorder {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 20px;
+.recorder{
+    padding:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
 }
 
-.recorder-head,
-.saved-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+.section-head,.files-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
 }
 
-.recorder-head span:last-child {
-    font-size: 10px;
-    color: var(--muted);
+.section-head span:last-child{
+    font-size:10px;
+    color:var(--muted);
 }
 
-.timer {
-    font: normal 54px Georgia, serif;
-    text-align: center;
-    margin: 28px 0 8px;
-    font-variant-numeric: tabular-nums;
+.timer{
+    text-align:center;
+    font-family:Georgia,serif;
+    font-size:58px;
+    margin:28px 0 8px;
+    font-variant-numeric:tabular-nums;
 }
 
-.record-state {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 18px;
+.record-message{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:20px;
 }
 
-.meter {
-    height: 4px;
-    background: #eee8df;
-    border-radius: 10px;
-    overflow: hidden;
+.progress{
+    height:5px;
+    background:#eee8df;
+    border-radius:10px;
+    overflow:hidden;
 }
 
-.meter span {
-    display: block;
-    width: 0;
-    height: 100%;
-    background: var(--red);
-    transition: width .2s;
+#progressBar{
+    width:0%;
+    height:100%;
+    background:var(--red);
+    transition:width .3s;
 }
 
-.consent {
-    display: flex;
-    gap: 10px;
-    font-size: 11px;
-    line-height: 1.45;
-    color: var(--muted);
-    margin: 20px 0;
+.segment-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    font-size:11px;
+    color:var(--muted);
 }
 
-.consent input {
-    width: 18px;
-    height: 18px;
-    flex: none;
+.segment-info strong{
+    color:var(--accent);
 }
 
-.actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.consent{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:22px 0;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
 }
 
-button {
-    min-height: 50px;
-    border: 0;
-    border-radius: 13px;
-    font-size: 13px;
-    font-weight: 650;
-    cursor: pointer;
+.consent input{
+    width:19px;
+    height:19px;
+    margin:0;
+    flex-shrink:0;
+    accent-color:var(--accent);
 }
 
-button:disabled {
-    opacity: .38;
+.buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
-.primary {
-    background: var(--accent);
-    color: white;
+button{
+    min-height:50px;
+    border:none;
+    border-radius:13px;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
 }
 
-.secondary {
-    background: #eee8df;
-    color: var(--ink);
+button:disabled{
+    opacity:.4;
 }
 
-.hint {
-    font-size: 10px;
-    line-height: 1.55;
-    color: var(--muted);
-    margin-top: 14px;
+.start{
+    background:var(--accent);
+    color:white;
 }
 
-.error {
-    font-size: 11px;
-    color: var(--red);
+.stop{
+    background:#eee8df;
+    color:var(--text);
 }
 
-.saved {
-    padding: 30px 2px;
+.hint{
+    font-size:10px;
+    line-height:1.6;
+    color:var(--muted);
+    margin-top:15px;
 }
 
-.saved h2 {
-    font: normal 24px Georgia, serif;
-    margin: 0;
+.error{
+    color:var(--red);
+    font-size:11px;
+    line-height:1.5;
+    margin-top:12px;
 }
 
-.saved-head > span {
-    font-size: 10px;
-    color: var(--muted);
+.files{
+    padding:30px 2px;
 }
 
-.empty {
-    color: var(--muted);
-    font-size: 12px;
-    padding: 18px;
-    border: 1px dashed var(--line);
-    border-radius: 14px;
+.files-heading h2{
+    font:normal 24px Georgia,serif;
+    margin:7px 0 0;
 }
 
-.segment {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fffaf2;
-    border: 1px solid var(--line);
-    border-radius: 13px;
-    padding: 12px;
-    margin-bottom: 8px;
+#fileCount{
+    color:var(--muted);
+    font-size:10px;
 }
 
-.segment-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
-    background: #eee5d9;
-    display: grid;
-    place-items: center;
+.empty{
+    border:1px dashed var(--border);
+    border-radius:13px;
+    padding:20px;
+    color:var(--muted);
+    font-size:12px;
 }
 
-.segment-info {
-    min-width: 0;
-    flex: 1;
+.file{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:13px;
+    margin-top:9px;
 }
 
-.segment-info strong {
-    display: block;
-    font-size: 12px;
+.file-icon{
+    width:36px;
+    height:36px;
+    background:#eee5d9;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
 }
 
-.segment-info small {
-    font-size: 10px;
-    color: var(--muted);
+.file-info{
+    flex:1;
+    min-width:0;
 }
 
-.segment a {
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 9px;
+.file-info strong{
+    display:block;
+    font-size:12px;
 }
 
-footer {
-    text-align: center;
-    color: #a0978c;
-    font-size: 10px;
-    padding: 12px;
+.file-info small{
+    color:var(--muted);
+    font-size:10px;
 }
 
-@media (max-width: 360px) {
-    .app {
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-
-    .recorder {
-        padding: 16px;
-    }
-
-    .timer {
-        font-size: 48px;
-    }
+.file a{
+    color:var(--accent);
+    text-decoration:none;
+    font-size:11px;
+    font-weight:bold;
+    padding:10px;
 }
-    </style>
+
+footer{
+    text-align:center;
+    color:#a0978c;
+    font-size:10px;
+}
+
+@media(max-width:360px){
+    .app{padding-left:13px;padding-right:13px}
+    .recorder{padding:16px}
+    .timer{font-size:49px}
+}
+</style>
 </head>
+
 <body>
 
 <main class="app">
 
-    <header class="topbar">
-        <div class="brand-mark">DN</div>
+<header class="topbar">
+    <div class="logo">DN</div>
 
+    <div>
+        <h3>DIGITAL NOTEBOOK</h3>
+        <p>Личное пространство</p>
+    </div>
+
+    <span id="status" class="status">ГОТОВО</span>
+</header>
+
+<section class="hero">
+    <span class="eyebrow">МОЯ БИБЛИОТЕКА</span>
+    <h1>Тишина помогает<br><em>сосредоточиться.</em></h1>
+    <p>Создавайте и сохраняйте аудиозаметки.</p>
+</section>
+
+<section class="notice">
+    <span class="notice-icon">●</span>
+    <div>
+        <strong>Микрофон и запись</strong>
+        <p>Запись включается только после вашего нажатия. Индикатор показывает активность микрофона.</p>
+    </div>
+</section>
+
+<section class="recorder">
+
+    <div class="section-head">
+        <span class="eyebrow">АУДИОЗАМЕТКА</span>
+        <span id="format">Ожидание</span>
+    </div>
+
+    <div class="timer" id="timer">00:00</div>
+
+    <div id="recordMessage" class="record-message">
+        Запись не запущена
+    </div>
+
+    <div class="progress">
+        <div id="progressBar"></div>
+    </div>
+
+    <div class="segment-info">
+        <span>Текущий фрагмент</span>
+        <strong id="segmentTimer">03:00</strong>
+    </div>
+
+    <label class="consent">
+        <input type="checkbox" id="consent">
+        <span>Я имею право записывать разговор, а участники уведомлены.</span>
+    </label>
+
+    <div class="buttons">
+        <button id="start" class="start">Начать запись</button>
+        <button id="stop" class="stop" disabled>Остановить</button>
+    </div>
+
+    <div id="error" class="error" role="alert"></div>
+
+    <p class="hint">
+        Фрагменты автоматически разделяются каждые 3 минуты.
+        Не закрывайте Safari во время записи.
+    </p>
+
+</section>
+
+<section class="files">
+
+    <div class="files-heading">
         <div>
-            <div class="brand">DIGITAL NOTEBOOK</div>
-            <div class="subbrand">Личное пространство для заметок</div>
+            <span class="eyebrow">АРХИВ</span>
+            <h2>Сохранённые записи</h2>
         </div>
+        <span id="fileCount">0 файлов</span>
+    </div>
 
-        <span class="status-pill" id="statusPill">ГОТОВО</span>
-    </header>
-
-    <section class="hero">
-        <p class="eyebrow">МОЯ БИБЛИОТЕКА</p>
-
-        <h1>
-            Тишина помогает<br>
-            <em>сосредоточиться.</em>
-        </h1>
-
-        <p class="intro">
-            Создавайте аудиозаметки и сохраняйте их на устройстве.
-        </p>
-    </section>
-
-    <section class="notice">
-        <span class="notice-dot"></span>
-
-        <div>
-            <strong>Прозрачная запись</strong>
-            <p>
-                Микрофон активен только после вашего нажатия.
-                Во время записи индикатор остаётся видимым.
-            </p>
+    <div id="fileList">
+        <div class="empty">
+            Пока нет сохранённых аудиофрагментов.
         </div>
-    </section>
+    </div>
 
-    <section class="recorder">
+</section>
 
-        <div class="recorder-head">
-            <span class="eyebrow">АУДИОЗАМЕТКА</span>
-            <span id="formatLabel">Формат определится браузером</span>
-        </div>
-
-        <div class="timer" id="timer">00:00</div>
-
-        <div class="record-state" id="recordState">
-            Запись не запущена
-        </div>
-
-        <div class="meter">
-            <span id="meterFill"></span>
-        </div>
-
-        <label class="consent">
-            <input type="checkbox" id="consentCheck">
-            Я подтверждаю, что имею право записывать этот разговор
-            и участники уведомлены.
-        </label>
-
-        <div class="actions">
-            <button class="primary" id="startBtn">
-                Начать запись
-            </button>
-
-            <button class="secondary" id="stopBtn" disabled>
-                Остановить
-            </button>
-        </div>
-
-        <p class="hint">
-            Аудио автоматически делится на фрагменты по 3 минуты.
-            Не закрывайте Safari во время записи.
-        </p>
-
-        <p class="error" id="error"></p>
-
-    </section>
-
-    <section class="saved">
-
-        <div class="saved-head">
-            <div>
-                <p class="eyebrow">ВАШИ ФАЙЛЫ</p>
-                <h2>Сохранённые фрагменты</h2>
-            </div>
-
-            <span id="count">0 файлов</span>
-        </div>
-
-        <div id="segments" class="segments">
-            <p class="empty">
-                Здесь появятся сохранённые аудиофрагменты.
-            </p>
-        </div>
-
-    </section>
-
-    <footer>
-        Digital Notebook · Запись остаётся под вашим контролем
-    </footer>
+<footer>
+    DIGITAL NOTEBOOK · Ваши аудиозаметки
+</footer>
 
 </main>
 
 <script>
-  ```javascript
-const $ = id => document.getElementById(id);
+(() => {
+    const $ = id => document.getElementById(id);
 
-const startBtn = $("startBtn");
-const stopBtn = $("stopBtn");
-const consentCheck = $("consentCheck");
+    const startBtn = $("start");
+    const stopBtn = $("stop");
 
-let stream = null;
-let recorder = null;
-let timer = null;
-let seconds = 0;
-let segmentNumber = 0;
-let segmentStartedAt = 0;
-let chunks = [];
-let stopping = false;
+    let stream = null;
+    let recorder = null;
+    let recording = false;
 
-function formatTime(n) {
-    const min = String(Math.floor(n / 60)).padStart(2, "0");
-    const sec = String(n % 60).padStart(2, "0");
+    let totalSeconds = 0;
+    let segmentNumber = 0;
 
-    return `${min}:${sec}`;
-}
+    let clockInterval = null;
+    let segmentTimeout = null;
+    let segmentStartTime = 0;
 
-function formatBytes(n) {
-    if (n < 1024 * 1024) {
-        return `${(n / 1024).toFixed(0)} КБ`;
+    let currentChunks = [];
+
+    function timeFormat(seconds) {
+        const min = String(Math.floor(seconds / 60)).padStart(2,"0");
+        const sec = String(seconds % 60).padStart(2,"0");
+        return `${min}:${sec}`;
     }
 
-    return `${(n / 1024 / 1024).toFixed(1)} МБ`;
-}
-
-function bestMime() {
-    const types = [
-        "audio/mp4",
-        "audio/webm;codecs=opus",
-        "audio/webm"
-    ];
-
-    return types.find(type =>
-        MediaRecorder.isTypeSupported(type)
-    ) || "";
-}
-
-function addSegment(blob, number, duration) {
-    if (!blob || !blob.size) return;
-
-    const url = URL.createObjectURL(blob);
-
-    const extension = blob.type.includes("mp4")
-        ? "m4a"
-        : "webm";
-
-    const name = `audio-note-${number}.${extension}`;
-
-    const row = document.createElement("div");
-    row.className = "segment";
-
-    const icon = document.createElement("div");
-    icon.className = "segment-icon";
-    icon.textContent = "♫";
-
-    const info = document.createElement("div");
-    info.className = "segment-info";
-
-    const title = document.createElement("strong");
-    title.textContent = `Фрагмент ${number}`;
-
-    const meta = document.createElement("small");
-    meta.textContent =
-        `${formatTime(duration)} · ${formatBytes(blob.size)}`;
-
-    info.append(title, meta);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    link.textContent = "Скачать";
-
-    row.append(icon, info, link);
-
-    if ($("segments").querySelector(".empty")) {
-        $("segments").innerHTML = "";
+    function showError(message) {
+        $("error").textContent = message;
     }
 
-    $("segments").prepend(row);
+    function getMimeType() {
+        if (!window.MediaRecorder) return "";
 
-    $("count").textContent = `${number} файлов`;
-}
+        const formats = [
+            "audio/mp4",
+            "audio/webm;codecs=opus",
+            "audio/webm"
+        ];
 
-function beginSegment() {
-    chunks = [];
+        if (typeof MediaRecorder.isTypeSupported !== "function") {
+            return "";
+        }
 
-    const mimeType = bestMime();
+        return formats.find(format =>
+            MediaRecorder.isTypeSupported(format)
+        ) || "";
+    }
 
-    recorder = new MediaRecorder(
-        stream,
-        mimeType ? { mimeType } : undefined
-    );
+    function saveFile(blob, number, duration) {
+        if (!blob || !blob.size) {
+            showError("Получен пустой аудиофайл. Проверьте поддержку браузером.");
+            return;
+        }
 
-    const currentRecorder = recorder;
+        const url = URL.createObjectURL(blob);
 
-    segmentStartedAt = Date.now();
+        const extension = blob.type.includes("mp4") ? "m4a" : "webm";
 
-    currentRecorder.addEventListener("dataavailable", event => {
-        if (event.data && event.data.size) {
-            chunks.push(event.data);
+        const fileName =
+            `audio-note-${String(number).padStart(3,"0")}.${extension}`;
+
+        const file = document.createElement("div");
+        file.className = "file";
+
+        const icon = document.createElement("div");
+        icon.className = "file-icon";
+        icon.textContent = "♫";
+
+        const info = document.createElement("div");
+        info.className = "file-info";
+
+        const title = document.createElement("strong");
+        title.textContent = `Фрагмент ${number}`;
+
+        const size = blob.size > 1024 * 1024
+            ? `${(blob.size / 1024 / 1024).toFixed(2)} МБ`
+            : `${(blob.size / 1024).toFixed(1)} КБ`;
+
+        const details = document.createElement("small");
+        details.textContent = `${timeFormat(duration)} · ${size}`;
+
+        info.append(title, details);
+
+        const download = document.createElement("a");
+        download.href = url;
+        download.download = fileName;
+        download.textContent = "Скачать";
+
+        file.append(icon, info, download);
+
+        const list = $("fileList");
+        const empty = list.querySelector(".empty");
+
+        if (empty) empty.remove();
+
+        list.prepend(file);
+
+        $("fileCount").textContent = `${number} файлов`;
+    }
+
+    function updateClock() {
+        $("timer").textContent = timeFormat(totalSeconds);
+
+        if (recording) {
+            const elapsed = Math.floor(
+                (Date.now() - segmentStartTime) / 1000
+            );
+
+            const remaining = Math.max(0, 180 - elapsed);
+
+            $("segmentTimer").textContent = timeFormat(remaining);
+
+            $("progressBar").style.width =
+                `${Math.min(100, elapsed / 180 * 100)}%`;
+        }
+    }
+
+    function finishCleanup() {
+        clearInterval(clockInterval);
+        clearTimeout(segmentTimeout);
+
+        clockInterval = null;
+        segmentTimeout = null;
+
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+
+        recorder = null;
+
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        $("consent").disabled = false;
+
+        $("status").textContent = "ГОТОВО";
+        $("status").classList.remove("recording");
+
+        $("recordMessage").textContent = "Запись остановлена";
+        $("segmentTimer").textContent = "03:00";
+        $("progressBar").style.width = "0%";
+    }
+
+    function startSegment() {
+        if (!recording || !stream) return;
+
+        currentChunks = [];
+
+        const mimeType = getMimeType();
+
+        let currentRecorder;
+
+        try {
+            currentRecorder = new MediaRecorder(
+                stream,
+                mimeType ? { mimeType } : undefined
+            );
+        } catch (error) {
+            showError("Не удалось создать запись: " + error.message);
+            stopRecording();
+            return;
+        }
+
+        recorder = currentRecorder;
+        segmentStartTime = Date.now();
+
+        currentRecorder.addEventListener("dataavailable", event => {
+            if (event.data && event.data.size) {
+                currentChunks.push(event.data);
+            }
+        });
+
+        currentRecorder.addEventListener("error", () => {
+            showError("Ошибка записи аудио.");
+            stopRecording();
+        });
+
+        currentRecorder.addEventListener("stop", () => {
+            const duration = Math.max(1, Math.round(
+                (Date.now() - segmentStartTime) / 1000
+            ));
+
+            const type =
+                currentRecorder.mimeType ||
+                (currentChunks[0] && currentChunks[0].type) ||
+                "audio/mp4";
+
+            const blob = new Blob(currentChunks, { type });
+
+            segmentNumber++;
+
+            saveFile(blob, segmentNumber, duration);
+
+            if (recording && stream) {
+                startSegment();
+            } else {
+                finishCleanup();
+            }
+        }, { once: true });
+
+        try {
+            currentRecorder.start();
+
+            $("format").textContent =
+                currentRecorder.mimeType || "Формат браузера";
+
+            $("recordMessage").textContent =
+                "● Запись активна — микрофон включён";
+
+            $("status").textContent = "ЗАПИСЬ";
+            $("status").classList.add("recording");
+
+            segmentTimeout = setTimeout(() => {
+                if (
+                    recording &&
+                    currentRecorder.state === "recording"
+                ) {
+                    currentRecorder.stop();
+                }
+            }, 180000);
+
+        } catch (error) {
+            showError("Ошибка запуска: " + error.message);
+            stopRecording();
+        }
+    }
+
+    async function startRecording() {
+        showError("");
+
+        if (!window.isSecureContext) {
+            showError("Откройте сайт через HTTPS.");
+            return;
+        }
+
+        if (!navigator.mediaDevices?.getUserMedia) {
+            showError("Доступ к микрофону недоступен в этом браузере.");
+            return;
+        }
+
+        if (!window.MediaRecorder) {
+            showError("MediaRecorder не поддерживается. Обновите Safari.");
+            return;
+        }
+
+        if (!$("consent").checked) {
+            showError("Подтвердите наличие разрешения на запись.");
+            return;
+        }
+
+        try {
+            startBtn.disabled = true;
+
+            $("recordMessage").textContent =
+                "Запрашиваем разрешение микрофона...";
+
+            stream = await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
+
+            recording = true;
+            totalSeconds = 0;
+            segmentNumber = 0;
+
+            $("timer").textContent = "00:00";
+            $("segmentTimer").textContent = "03:00";
+
+            $("fileList").innerHTML =
+                '<div class="empty">Готовые фрагменты появятся здесь.</div>';
+
+            $("fileCount").textContent = "0 файлов";
+
+            stopBtn.disabled = false;
+            $("consent").disabled = true;
+
+            startSegment();
+
+            clockInterval = setInterval(() => {
+                if (!recording) return;
+
+                totalSeconds++;
+                updateClock();
+            }, 1000);
+
+            stream.getAudioTracks().forEach(track => {
+                track.addEventListener("ended", () => {
+                    if (recording) {
+                        showError("Микрофон отключён.");
+                        stopRecording();
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.error(error);
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+
+            startBtn.disabled = false;
+
+            $("recordMessage").textContent = "Запись не запущена";
+
+            if (error.name === "NotAllowedError") {
+                showError("Разрешите доступ к микрофону в настройках Safari.");
+            } else if (error.name === "NotFoundError") {
+                showError("Микрофон не найден.");
+            } else {
+                showError("Ошибка: " + error.message);
+            }
+        }
+    }
+
+    function stopRecording() {
+        if (!recording && !stream) return;
+
+        recording = false;
+
+        clearTimeout(segmentTimeout);
+        clearInterval(clockInterval);
+
+        segmentTimeout = null;
+        clockInterval = null;
+
+        const current = recorder;
+
+        $("recordMessage").textContent =
+            "Сохраняем последний фрагмент...";
+
+        if (current && current.state !== "inactive") {
+            current.stop();
+        } else {
+            finishCleanup();
+        }
+    }
+
+    startBtn.addEventListener("click", startRecording);
+    stopBtn.addEventListener("click", stopRecording);
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden && recording) {
+            $("recordMessage").textContent =
+                "Вкладка скрыта. Safari может приостановить запись. Вернитесь и проверьте статус.";
+        } else if (recording) {
+            $("recordMessage").textContent =
+                "● Запись активна — микрофон включён";
         }
     });
 
-    currentRecorder.addEventListener("stop", () => {
-        const blob = new Blob(chunks, {
-            type: currentRecorder.mimeType || "audio/mp4"
-        });
-
-        segmentNumber++;
-
-        addSegment(
-            blob,
-            segmentNumber,
-            Math.max(
-                1,
-                Math.round((Date.now() - segmentStartedAt) / 1000)
-            )
-        );
-
-        chunks = [];
-
-        if (!stopping && stream) {
-            beginSegment();
+    window.addEventListener("pagehide", () => {
+        if (recording) {
+            recording = false;
+            clearInterval(clockInterval);
+            clearTimeout(segmentTimeout);
         }
-    }, { once: true });
-
-    currentRecorder.start();
-
-    $("formatLabel").textContent =
-        currentRecorder.mimeType || "Формат браузера";
-}
-
-async function startRecording() {
-    $("error").textContent = "";
-
-    if (!consentCheck.checked) {
-        $("error").textContent =
-            "Подтвердите наличие разрешения на запись.";
-        return;
-    }
-
-    if (
-        !navigator.mediaDevices?.getUserMedia ||
-        !window.MediaRecorder
-    ) {
-        $("error").textContent =
-            "Браузер не поддерживает запись. Используйте HTTPS и актуальный Safari.";
-        return;
-    }
-
-    try {
-        stopping = false;
-
-        stream = await navigator.mediaDevices.getUserMedia({
-            audio: true
-        });
-
-        segmentNumber = 0;
-        seconds = 0;
-
-        $("timer").textContent = "00:00";
-
-        $("statusPill").textContent = "ЗАПИСЬ";
-        $("recordState").textContent =
-            "● Идёт запись — микрофон активен";
-
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
-        consentCheck.disabled = true;
-
-        beginSegment();
-
-        timer = setInterval(() => {
-            seconds++;
-
-            $("timer").textContent = formatTime(seconds);
-
-            $("meterFill").style.width =
-                `${(seconds % 180) / 180 * 100}%`;
-
-            // Каждый фрагмент длится 3 минуты.
-            if (
-                seconds % 180 === 0 &&
-                recorder?.state === "recording"
-            ) {
-                recorder.stop();
-            }
-
-        }, 1000);
-
-    } catch (error) {
-        $("error").textContent =
-            "Не удалось получить доступ к микрофону: " +
-            error.message;
-    }
-}
-
-function stopRecording() {
-    stopping = true;
-
-    if (timer) {
-        clearInterval(timer);
-        timer = null;
-    }
-
-    $("statusPill").textContent = "ГОТОВО";
-    $("recordState").textContent = "Запись остановлена";
-
-    $("meterFill").style.width = "0%";
-
-    startBtn.disabled = false;
-    stopBtn.disabled = true;
-    consentCheck.disabled = false;
-
-    if (recorder && recorder.state !== "inactive") {
-        recorder.stop();
-    }
-
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-    }
-}
-
-startBtn.addEventListener("click", startRecording);
-stopBtn.addEventListener("click", stopRecording);
-
-document.addEventListener("visibilitychange", () => {
-    if (
-        document.hidden &&
-        $("statusPill").textContent === "ЗАПИСЬ"
-    ) {
-        $("recordState").textContent =
-            "Вкладка скрыта. Safari может приостановить запись.";
-    }
-});
-
-window.addEventListener("pagehide", () => {
-    if (timer) clearInterval(timer);
-});
-```}
+    });
+})();
 </script>
 
 </body>
 </html>
-```
